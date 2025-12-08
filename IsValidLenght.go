@@ -19,7 +19,7 @@ func IsValidLength(msisdn string) bool {
 		return length == 11 || length == 12
 	}
 
-	// Switzerland (41)
+	// Switzerland (41) This is the numbering plan for Switzerland
 	if strings.HasPrefix(msisdn, "41") {
 		// 41 + 9 cifara = 11
 		return length == 11
