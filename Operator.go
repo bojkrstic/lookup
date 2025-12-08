@@ -2,12 +2,12 @@ package lookup
 
 var operatorByPrefix = map[string]string{
 	"38160": "MTS (original range)",
-	"38161": "MTS (original range)",
-	"38163": "MTS (original range)",
-	"38162": "A1 (original range)",
-	"38165": "A1 (original range)",
-	"38164": "Yettel (original range)",
-	"38166": "Yettel (original range)",
+	"38161": "A1 (original range)",
+	"38163": "Yettel (original range)",
+	"38162": "Yettel (original range)",
+	"38165": "MTS (original range)",
+	"38164": "MTS (original range)",
+	"38166": "MTS (original range)",
 	"3069":  "Greek mobile (Cosmote/Vodafone/WIND)",
 	"30231": "Greek fixed (OTE - Thessaloniki)",
 	"30210": "Greek fixed (OTE - Athens)",
