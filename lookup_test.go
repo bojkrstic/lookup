@@ -10,7 +10,7 @@ func TestCountry(t *testing.T) {
 		{"+393383260866", "Italy"},
 		{"+38164123456", "Serbia"},
 		{"+306941234567", "Greece"},
-		{"+41071234567", "Switzerland"},
+		{"+41712345678", "Switzerland"},
 	}
 
 	for _, tc := range cases {
@@ -65,10 +65,17 @@ func TestOperator(t *testing.T) {
 		msisdn string
 		want   string
 	}{
-		{"+381601234567", "MTS (original range)"},
-		{"+381621234567", "A1 (original range)"},
-		{"+381641234567", "Yettel (original range)"},
-		{"+306912345678", "Greek mobile (Cosmote/Vodafone/WIND)"},
+		{"+381601234567", "A1 Serbia (original range)"},
+		{"+381621234567", "Yettel Serbia (original range)"},
+		{"+381641234567", "Telekom Srbija (mts original range)"},
+		{"+381671234567", "Globaltel Serbia (MVNO range)"},
+		{"+393383260866", "TIM Italy (338 prefix)"},
+		{"+393491234567", "Vodafone Italy (349 prefix)"},
+		{"+390612345678", "Italy fixed (Rome 06)"},
+		{"+41791234567", "Swisscom Mobile (079 prefix)"},
+		{"+41761234567", "Sunrise UPC Switzerland (076 prefix)"},
+		{"+41221234567", "Switzerland fixed (Geneva 22)"},
+		{"+306971234567", "Cosmote Greece (697 prefix)"},
 		{"+302310669985", "Greek fixed (OTE - Thessaloniki)"},
 		{"+302109876543", "Greek fixed (OTE - Athens)"},
 	}
