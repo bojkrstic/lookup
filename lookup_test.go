@@ -86,3 +86,29 @@ func TestOperator(t *testing.T) {
 		}
 	}
 }
+
+func TestAnalyzeProvidesNormalizedView(t *testing.T) {
+	resp := Analyze("+30 697 038 91 62")
+	if resp.Normalized != "306970389162" {
+		t.Fatalf("expected normalized digits to match, got %s", resp.Normalized)
+	}
+	if resp.E164 != "+306970389162" {
+		t.Fatalf("expected E.164 format, got %s", resp.E164)
+	}
+	if !resp.Valid.DigitsOnly || !resp.Valid.KnownCountryCode || !resp.Valid.LengthOk {
+		t.Fatalf("expected all validations to pass: %+v", resp.Valid)
+	}
+	if resp.CountryConfidence != "high" || resp.TypeConfidence != "medium" || resp.OperatorConfidence == "" {
+		t.Fatalf("unexpected confidence payload: %+v", resp)
+	}
+}
+
+func TestAnalyzeDetectsInvalidCharacters(t *testing.T) {
+	resp := Analyze("+30/ 69A")
+	if resp.Valid.DigitsOnly {
+		t.Fatalf("expected digitsOnly=false for payload with invalid characters")
+	}
+	if resp.Country != "Unknown" {
+		t.Fatalf("country should be unknown for incomplete prefix, got %s", resp.Country)
+	}
+}

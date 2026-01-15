@@ -1,16 +1,44 @@
 package lookup
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+)
+
+type normalizedPayload struct {
+	digits     string
+	digitsOnly bool
+}
 
 func normalize(msisdn string) string {
-	msisdn = strings.TrimSpace(msisdn)           // skloni razmake sa početka/kraja
-	msisdn = strings.ReplaceAll(msisdn, " ", "") // skloni sve razmake u sredini
+	return normalizeDetailed(msisdn).digits
+}
 
-	// podrži + i 00 kao internacionalni prefiks
-	msisdn = strings.TrimPrefix(msisdn, "+")
-	if strings.HasPrefix(msisdn, "00") {
-		msisdn = msisdn[2:]
+func normalizeDetailed(msisdn string) normalizedPayload {
+	trimmed := strings.TrimSpace(msisdn)
+	var builder strings.Builder
+	builder.Grow(len(trimmed))
+	digitsOnly := true
+
+	for _, r := range trimmed {
+		switch {
+		case unicode.IsDigit(r):
+			builder.WriteRune(r)
+		case r == '+' && builder.Len() == 0:
+			// skip leading plus
+		case unicode.IsSpace(r):
+			// ignore whitespace completely
+		case r == '-' || r == '(' || r == ')' || r == '.':
+			// treated as permissive formatting characters
+		default:
+			digitsOnly = false
+		}
 	}
 
-	return msisdn
+	digits := builder.String()
+	if strings.HasPrefix(digits, "00") {
+		digits = digits[2:]
+	}
+
+	return normalizedPayload{digits: digits, digitsOnly: digitsOnly}
 }
